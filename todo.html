@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>TODO APP</title>
+</head>
+
+<body>
+    <div style="display: flex; justify-content: space-around ">
+        <div id="notesbox">
+            Loading
+            .. </div>
+
+        <div>
+            <input id="usernotes">
+            <button onclick="addnotes()">ADD THE Button</button>
+        </div>
+    </div>
+</body>
+<script>
+    const notesbox = document.getElementById('notesbox')
+    async function showNotes() {
+        const api = await axios("http://localhost:4000/notes", {
+            method: "GET"
+        });
+        const res = api.data;
+        console.log("RESPONSE IS ", res);
+        notesbox.innerHTML = ""
+        for (let i = 0; i < res.length; i++) {
+            const newdiv = document.createElement('div');
+            newdiv.innerHTML = res[i];
+            notesbox.appendChild(newdiv);
+        }
+
+    }
+
+    async function addnotes() {
+        const userInput = document.getElementById("usernotes").value;
+        // console.log("USERINPOU", userInput)
+        const api = await axios("http://localhost:4000/notes", {
+            method: "POST",
+            data: {
+                note: userInput
+            }
+        });
+
+        showNotes();
+    }
+
+    showNotes();
+
+</script>
+
+</html>

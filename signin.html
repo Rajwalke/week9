@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <input id="username" type="text">
+
+        <input id="password" type="text">
+
+        <button onclick="signin()">SIGNUP</button>
+    </div>
+</body>
+<script>
+    async function signin() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const api = await axios("http://localhost:4000/signin", {
+            method: "POST",
+            data: {
+                username: username,
+                password: password
+            }
+        })
+        const token = api.data.token;
+        localStorage.setItem('token', token);
+
+        window.location = '/'
+    }
+
+</script>
+
+</html>
